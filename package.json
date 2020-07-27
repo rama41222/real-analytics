@@ -1,0 +1,33 @@
+{
+  "name": "real-analytics",
+  "version": "1.0.0",
+  "description": "Real Analytics API",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rama41222/real-analytics.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rama41222/real-analytics/issues"
+  },
+  "homepage": "https://github.com/rama41222/real-analytics#readme",
+  "dependencies": {
+    "aws-sdk": "^2.720.0",
+    "joi": "^17.1.1",
+    "lambda-api": "^0.10.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "serverless-dotenv-plugin": "^3.0.0",
+    "serverless-offline": "^6.5.0"
+  }
+}
