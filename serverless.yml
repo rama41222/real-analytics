@@ -20,14 +20,14 @@ provider:
 
 functions:
   data-collector:
-    handler: src/modules/data-collector/data.handler.handler
+    handler: src/modules/data-collector/data.handler
     events:
       - http:
           path: '/v1/data-collector/{proxy+}'
           method: any
           cors: true
   data-delivery-pipeline:
-    handler: src/modules/data-delivery/delivery.handler.handler
+    handler: src/modules/data-delivery/delivery.handler
     events:
       - http:
           path: '/v1/data-delivery-pipeline/{proxy+}'
