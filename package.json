@@ -22,7 +22,8 @@
   "dependencies": {
     "aws-sdk": "^2.720.0",
     "joi": "^17.1.1",
-    "lambda-api": "^0.10.6"
+    "lambda-api": "^0.10.6",
+    "mongoose": "^5.9.25"
   },
   "devDependencies": {
     "chai": "^4.2.0",

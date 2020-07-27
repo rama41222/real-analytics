@@ -33,5 +33,3 @@ functions:
           path: '/v1/data-delivery-pipeline/{proxy+}'
           method: any
           cors: true
-  data-processing-cron:
-    handler: src/modules/content/content.handler
