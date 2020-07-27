@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const Asset = require('./asset.model');
 const Unit = require('./unit.model');
 const { config } = require('./../../lib');
