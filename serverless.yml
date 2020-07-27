@@ -1,0 +1,35 @@
+service: real-analytics
+
+app: real-analytics
+org: dinushankanrg
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+custom:
+  dotenv:
+    basePath: ./env/
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'development'}
+  region: ap-south-1
+  environment:
+    env: ${file(./env/.env.${self:provider.stage})}
+
+functions:
+  users:
+    handler: src/modules/users/users.handler
+    events:
+      - http:
+          path: '/v1/users/{proxy+}'
+          method: any
+          cors: true
+  content:
+    handler: src/modules/content/content.handler
+    events:
+      - http:
+          path: '/v1/content/{proxy+}'
+          method: any
+          cors: true
