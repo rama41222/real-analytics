@@ -19,17 +19,19 @@ provider:
     env: ${file(./env/.env.${self:provider.stage})}
 
 functions:
-  users:
-    handler: src/modules/users/users.handler
+  data-collector:
+    handler: src/modules/data-collector/data.handler.handler
     events:
       - http:
-          path: '/v1/users/{proxy+}'
+          path: '/v1/data-collector/{proxy+}'
           method: any
           cors: true
-  content:
+  data-delivery-pipeline:
+    handler: src/modules/data-delivery/delivery.handler.handler
+    events:
+      - http:
+          path: '/v1/data-delivery-pipeline/{proxy+}'
+          method: any
+          cors: true
+  data-processing-cron:
     handler: src/modules/content/content.handler
-    events:
-      - http:
-          path: '/v1/content/{proxy+}'
-          method: any
-          cors: true
