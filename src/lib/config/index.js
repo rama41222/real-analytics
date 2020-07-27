@@ -7,6 +7,7 @@ const {
   L_AWS_ACCESS_KEY,
   L_AWS_SECRET,
   L_AWS_REGION,
+  L_AWS_BUCKET_NAME,
   DB_HOST,
   DB_PORT,
   DB_USER,
@@ -38,6 +39,7 @@ const baseSettings  = {
     AWS_SECRET: L_AWS_SECRET,
     AWS_ACCESS_KEY: L_AWS_ACCESS_KEY,
     AWS_REGION: L_AWS_REGION,
+    AWS_BUCKET_NAME: L_AWS_BUCKET_NAME,
   },
   mongo: {
       url: `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${NODE_ENV}-${DB_NAME}` || `mongodb://localhost/${NODE_ENV}-${APP_NAME}`,

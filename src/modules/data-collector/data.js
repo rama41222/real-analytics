@@ -2,7 +2,7 @@
 const api = require('lambda-api')({ version: 'v1.0', base:'/v1/data-collector'});
 const routes = require('./routes');
 const { middleware } = require('./../../lib');
-const database = require('./../../lib/database');
+const { database } = require('./../../lib/database');
 middleware(api);
 routes(api);
 let connection;

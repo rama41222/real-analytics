@@ -21,6 +21,7 @@
   "homepage": "https://github.com/rama41222/real-analytics#readme",
   "dependencies": {
     "aws-sdk": "^2.720.0",
+    "dotenv": "^8.2.0",
     "joi": "^17.1.1",
     "lambda-api": "^0.10.6",
     "mongoose": "^5.9.25"
