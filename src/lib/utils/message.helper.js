@@ -17,6 +17,8 @@ module.exports = {
       invalid: 'Invalid data format',
       creation: 'Data creation failed',
       unauthorized: 'Unauthorized Request',
+      upload_failed: 'File upload failed',
+      parse_error: 'File parsing failed'
     },
   }
 };
