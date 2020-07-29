@@ -9,6 +9,13 @@ const pusher = new Pusher({
   encrypted: true
 });
 
-console.log(pusher, pusher_keys)
+const triggerPusherNotification = async(data) => {
+  pusher.trigger('real-analytics', 'file-upload', {
+    data: data
+  })
+};
 
-module.exports = pusher;
+module.exports = {
+  triggerPusherNotification,
+  pusher
+};

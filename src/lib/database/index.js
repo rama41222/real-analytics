@@ -2,7 +2,7 @@ const database = require('./mongo');
 const s3 = require('./s3');
 const upload  = require('./multer');
 const processDataQueue = require('./redis');
-const pusher = require('./pusher');
+const { pusher, triggerPusherNotification } = require('./pusher');
 /**
  * Common Database handler
  */
@@ -11,5 +11,6 @@ module.exports = {
   s3,
   upload,
   processDataQueue,
-  pusher
+  pusher,
+  triggerPusherNotification
 };

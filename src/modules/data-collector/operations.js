@@ -2,8 +2,8 @@ const Asset = require('./asset.model');
 const Unit = require('./unit.model');
 const { v4: uuidv4 } = require('uuid');
 const Upload = require('./upload.model');
-const { config } = require('./../../lib');
-const { s3, pusher, processDataQueue } = require('./../../lib/database');
+const { config, messages } = require('./../../lib');
+const { s3, pusher, processDataQueue, triggerPusherNotification } = require('./../../lib/database');
 const csv =require("csvtojson");
 const { parseObject, fileParser } = require('./../../lib');
 
@@ -35,34 +35,46 @@ const offLoader = async (jobId, parsedFile) => {
     delay: 5000, // 1 min in ms
     attempts: 1
   };
-  console.log('queued');
+
   for(let filename in parsedFile) {
-    let myid = uuidv4();
+    let qId = uuidv4();
     const data = {
       jobId,
       filename: parsedFile[filename].filename,
       parsedFile: parsedFile[filename],
     };
 
-    processDataQueue.process(myid,async (job, done) => {
+    processDataQueue.process(qId,async (job, done) => {
       try {
-      const x = await dataVerifier(job.data, done);
-        if(x) {
-          pusher.trigger('real-analytics', 'file-upload', {
-              data: {
-                job: job.data.jobId, filename: job.data.filename, units: x.length, status: true, error: null
-              }
-            })
+      const completedData = await dataVerifier(job.data, done);
+        if(completedData) {
+          await triggerPusherNotification( {
+            job: job.data.jobId,
+            filename: job.data.filename,
+            units: completedData.length,
+            status: true,
+            error: null
+          })
+        } else {
+          await triggerPusherNotification( {
+            job: job.data.jobId,
+            filename: job.data.filename,
+            units: null,
+            status: false,
+            error: messages.error.data.invalid
+          })
         }
       } catch(e) {
-        pusher.trigger('real-analytics', 'file-upload', {
-          data: {
-            job: job.data.jobId, filename: job.data.filename, units: null, status: false, error: e.message
-          }
-        })
+        await triggerPusherNotification({
+          job: job.data.jobId,
+          filename: job.data.filename,
+          units: null,
+          status: false,
+          error: e.message
+        });
       }
     });
-    await processDataQueue.add(myid,data, options);
+    await processDataQueue.add(qId, data, options);
   }
   return true;
 };
@@ -90,19 +102,15 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
         }
         resolve(proc);
         return proc
-      }).catch(e=> {
-        pusher.trigger('real-analytics', 'file-upload', {
-          data: {
-            job: jobId, filename: filename, units: null, status: false, error: e.message
-          }
-        })
+      }).catch( async e => {
+        await triggerPusherNotification({
+          job: jobId, filename: filename, units: null, status: false, error: e.message
+        });
       });
       return savedData;
     }, async(error) => {
-      pusher.trigger('real-analytics', 'file-upload', {
-        data: {
-          job: jobId, filename: filename, units: null, status: false, error: error
-        }
+      await triggerPusherNotification({
+        job: jobId, filename: filename, units: null, status: false, error: error
       });
       done()
     });
