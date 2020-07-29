@@ -12,7 +12,14 @@ const {
   DB_PORT,
   DB_USER,
   DB_PASSWORD,
-  DB_NAME
+  DB_NAME,
+  REDIS_ENDPOINT,
+  REDIS_PASSWORD,
+  REDIS_PORT,
+  PUSHER_APP_ID,
+  PUSHER_KEY,
+  PUSHER_SECRET,
+  PUSHER_CLUSTER,
 } = process.env;
 
 let credentials = '';
@@ -44,6 +51,17 @@ const baseSettings  = {
   mongo: {
       url: `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${NODE_ENV}-${DB_NAME}` || `mongodb://localhost/${NODE_ENV}-${APP_NAME}`,
       host: `${DB_HOST}` || 'mongodb://localhost/user-service'
+  },
+  redis: {
+    PASSWORD: REDIS_PASSWORD || '',
+    ENDPOINT: REDIS_ENDPOINT || '127.0.0.1',
+    PORT: REDIS_PORT || 6379
+  },
+  pusher_keys: {
+    app_id: PUSHER_APP_ID,
+    key: PUSHER_KEY,
+    secret: PUSHER_SECRET,
+    cluster: PUSHER_CLUSTER,
   },
   jwt: {
     algorithm: JWT_ALGORITHM || 'HS256',

@@ -45,12 +45,13 @@ const unitSchema = new Schema({
     ref: 'Asset',
     required: [true, `Asset reference is required to store this unit ${this.ref} on ${this.data_timestamp}`]
   },
-  data_timestamp: {
+  timestamp: {
     type: String,
     required: [true, 'Report time is required'],
     index: { unique: false },
   }
 }, { strict: true, timestamps: true });
 
+unitSchema.index({ timestamp: -1, ref: 1,  asset: 1 }, { unique: true });
 module.exports = mongoose.model('Unit', unitSchema);
 

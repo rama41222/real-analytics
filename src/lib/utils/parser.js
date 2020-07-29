@@ -1,41 +1,57 @@
 /**
+ *
+ * @param parsedFile
+ * @returns {Promise<string>}
+ */
+const fileParser = async(parsedFile) => {
+  let fileString =  parsedFile.content.toString();
+  let newString = fileString.split('ï»¿');
+  if(newString.length > 1) {
+    fileString = newString[1]
+  }
+  return fileString
+};
+/**
  * Parses the raw data from csv files
  *
  * @param data
  * @returns {Promise<*>}
  */
-const parseUnitObject = async(data) => {
-  const schema = {
-    portfolio: 'Houses',
-      asset_ref: 'A_5',
-    asset_address: 'Fritz-Löffler-Straße 16',
-    asset_zipcode: '01069',
-    asset_city: 'Dresden',
-    asset_is_restricted: 'FALSE',
-    asset_yoc: '1995',
-    unit_ref: 'A_5_3',
-    unit_size: '55',
-    unit_is_rented: 'TRUE',
-    unit_rent: '450',
-    unit_type: 'RESIDENTIAL',
-    unit_tenant: 'Delmar Poissant',
-    unit_lease_start: '01.09.18',
-    unit_lease_end: '01.09.19',
-    data_timestamp: '01.01.19'
-  };
-  return {};
-};
-
-/**
- * Parses the asset object
- * @param data
- * @returns {Promise<{}>}
- */
-const parseAssetObject = async(data) => {
-  return {};
+const parseObject = async(data) => {
+  let asset = {};
+  let errors = [];
+  let unit = {};
+  
+  Object.keys(data).forEach(key => {
+    if(key === 'asset_is_restricted') {
+      data[key] = data[key] === 'TRUE'
+    }
+    
+    if(key === 'unit_is_rented') {
+      data[key] = data[key] === 'TRUE'
+    }
+    
+    let schemaKey = key.split('_');
+    if(schemaKey.length === 1) {
+      asset[key] = data[key];
+    } else if(schemaKey.length > 1) {
+      let type = schemaKey.shift();
+      if(type === 'unit') {
+        unit[schemaKey.join('_')] = data[key];
+      } else if(type === 'asset') {
+        asset[schemaKey.join('_')] = data[key];
+      } else {
+        unit[schemaKey.join('_')] = data[key];
+        asset[schemaKey.join('_')] = data[key];
+      }
+    } else {
+      errors.push({ key: data[key] });
+    }
+  });
+  return { asset, unit, errors };
 };
 
 module.exports = {
-  parseUnitObject,
-  parseAssetObject
+  parseObject,
+  fileParser
 };

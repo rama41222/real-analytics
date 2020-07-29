@@ -22,12 +22,12 @@ const assetSchema = new Schema({
     trim: true,
     required: [true, 'Asset address is required']
   },
-  zip_code: {
+  zipcode: {
     type: String,
     trim: true,
     required: [true, 'Zip code is required']
   },
-  is_restricted:{
+  is_restricted: {
     type: Boolean,
     required: [true, 'Asset location constraints required']
   },
@@ -40,12 +40,12 @@ const assetSchema = new Schema({
     trim: true,
     required: [true, 'Construction year is required']
   },
-  data_timestamp: {
+  timestamp: {
     type: String,
     required: [true, 'Report time is required'],
-    index: { unique: false },
   }
 }, { strict: true, timestamps: true });
 
+assetSchema.index({ timestamp: -1, ref: 1 }, { unique: true });
 module.exports = mongoose.model('Asset', assetSchema);
 

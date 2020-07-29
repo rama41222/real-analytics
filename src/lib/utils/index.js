@@ -3,10 +3,10 @@
  */
 const { response } = require('./response');
 const messages = require('./message.helper');
-const { parseAssetObject, parseUnitObject } = require('./parser');
+const { parseObject, fileParser } = require('./parser');
 module.exports = {
   response,
   messages,
-  parseAssetObject,
-  parseUnitObject
+  parseObject,
+  fileParser
 };
