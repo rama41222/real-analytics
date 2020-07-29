@@ -31,18 +31,11 @@ const process = async(assetOptions, unitOptions, asset, unit) => {
 
 
 const offLoader = async (jobId, parsedFile) => {
-  const options = {
-    delay: 5000, // 1 min in ms
-    attempts: 1
-  };
+  const options = { delay: 5000, attempts: 1 };
 
   for(let filename in parsedFile) {
     let qId = uuidv4();
-    const data = {
-      jobId,
-      filename: parsedFile[filename].filename,
-      parsedFile: parsedFile[filename],
-    };
+    const data = { jobId, filename: parsedFile[filename].filename, parsedFile: parsedFile[filename] };
 
     processDataQueue.process(qId,async (job, done) => {
       try {
@@ -76,15 +69,16 @@ const offLoader = async (jobId, parsedFile) => {
     });
     await processDataQueue.add(qId, data, options);
   }
-  return true;
 };
 
 const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
+  
   if(!parsedFile || !parsedFile.content) {
     return false;
   }
   
   const fileString =  await fileParser(parsedFile);
+  
   const validatedFile = await csv ({ delimiter: 'auto',  trim: true, checkType: true, })
     .fromString (fileString)
     .subscribe (async (json) =>{
@@ -101,7 +95,7 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
           reject(new Error(`Database error in: ${JSON.stringify(proc)}`));
         }
         resolve(proc);
-        return proc
+        return proc;
       }).catch( async e => {
         await triggerPusherNotification({
           job: jobId, filename: filename, units: null, status: false, error: e.message
@@ -112,10 +106,11 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
       await triggerPusherNotification({
         job: jobId, filename: filename, units: null, status: false, error: error
       });
-      done()
+      done();
     });
   return validatedFile ? validatedFile : false;
 };
+
 /**
  * Listing a single Asset by ref
  * @param ref
@@ -134,7 +129,6 @@ const listUnitByRef = async(ref) => {
   const count = Unit.findOne({ ref }, { __v: 0 }).exec();
   return count > 0;
 };
-
 
 module.exports = {
   process,
