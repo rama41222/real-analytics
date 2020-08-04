@@ -21,7 +21,10 @@ provider:
     - Effect: "Allow"
       Action:
         - "s3:*"
-      Resource: "arn:aws:s3:::${self:app}-${self:provider.stage}/*"
+        - "lambda:InvokeFunction"
+      Resource:
+      - "arn:aws:s3:::${self:app}-${self:provider.stage}/*"
+      - "*"
   apiGateway:
     binaryMediaTypes:
       - '*/*'
@@ -41,22 +44,3 @@ functions:
           path: '/v1/data-delivery-pipeline/{proxy+}'
           method: any
           cors: true
-
-resources:
-  Resources:
-    UploadBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:provider.stage}-${self:app}
-        AccessControl: PublicRead
-        CorsConfiguration:
-          CorsRules:
-            - AllowedMethods:
-                - GET
-                - PUT
-                - POST
-                - HEAD
-              AllowedOrigins:
-                - "*"
-              AllowedHeaders:
-                - "*"

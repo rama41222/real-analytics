@@ -1,9 +1,9 @@
 const Asset = require('./asset.model');
 const Unit = require('./unit.model');
 const { v4: uuidv4 } = require('uuid');
-const Upload = require('./upload.model');
-const { config, messages } = require('./../../lib');
-const { s3, pusher, processDataQueue, triggerPusherNotification } = require('./../../lib/database');
+const { messages } = require('./../../lib');
+const analyticsEmitter = require('./../../lib/helpers');
+const { lambda ,processDataQueue, triggerPusherNotification } = require('./../../lib/database');
 const csv =require("csvtojson");
 const { parseObject, fileParser } = require('./../../lib');
 
@@ -29,17 +29,21 @@ const process = async(assetOptions, unitOptions, asset, unit) => {
   return { asset, unit, success: true };
 };
 
-
+/**
+ *
+ * @param jobId
+ * @param parsedFile
+ * @returns {Promise<void>}
+ */
 const offLoader = async (jobId, parsedFile) => {
   const options = { delay: 5000, attempts: 1 };
-
+  let active = false;
   for(let filename in parsedFile) {
     let qId = uuidv4();
     const data = { jobId, filename: parsedFile[filename].filename, parsedFile: parsedFile[filename] };
-
-    processDataQueue.process(qId,async (job, done) => {
+    processDataQueue.process(qId,5,async (job, done) => {
       try {
-      const completedData = await dataVerifier(job.data, done);
+        const completedData = await dataVerifier(job.data, done);
         if(completedData) {
           await triggerPusherNotification( {
             job: job.data.jobId,
@@ -65,12 +69,36 @@ const offLoader = async (jobId, parsedFile) => {
           status: false,
           error: e.message
         });
+      } finally {
+        done()
       }
     });
     await processDataQueue.add(qId, data, options);
+    processDataQueue.on('global:completed', () => {
+      processDataQueue.getJobCounts().then(jobs => {
+        if(!active && jobs.active === 0) {
+          analyticsEmitter.emit('calculate');
+        }
+        if(jobs.active === 0) {
+          active = true;
+        }
+      });
+    });
+ 
+  
+  
   }
 };
 
+
+/**
+ *
+ * @param filename
+ * @param jobId
+ * @param parsedFile
+ * @param done
+ * @returns {Promise<boolean|any>}
+ */
 const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
   
   if(!parsedFile || !parsedFile.content) {

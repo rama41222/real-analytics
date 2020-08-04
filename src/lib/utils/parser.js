@@ -23,14 +23,6 @@ const parseObject = async(data) => {
   let unit = {};
   
   Object.keys(data).forEach(key => {
-    if(key === 'asset_is_restricted') {
-      data[key] = data[key] === 'TRUE'
-    }
-    
-    if(key === 'unit_is_rented') {
-      data[key] = data[key] === 'TRUE'
-    }
-    
     let schemaKey = key.split('_');
     if(schemaKey.length === 1) {
       asset[key] = data[key];

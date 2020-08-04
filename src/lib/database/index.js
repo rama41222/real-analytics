@@ -1,5 +1,5 @@
 const database = require('./mongo');
-const s3 = require('./s3');
+const lambda = require('./lambda');
 const upload  = require('./multer');
 const processDataQueue = require('./redis');
 const { pusher, triggerPusherNotification } = require('./pusher');
@@ -8,7 +8,7 @@ const { pusher, triggerPusherNotification } = require('./pusher');
  */
 module.exports = {
   database,
-  s3,
+  lambda,
   upload,
   processDataQueue,
   pusher,

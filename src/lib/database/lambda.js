@@ -6,7 +6,7 @@ AWS.config.update({
 });
 /**
  * configure a s3 bucket
- * @type {S3}
+ * @type {Lambda}
  */
-const s3 = new AWS.S3();
-module.exports = s3;
+const lambda = new AWS.Lambda( {  region: aws.AWS_REGION  });
+module.exports = lambda;
