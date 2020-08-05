@@ -5,7 +5,6 @@ const moment = require('moment');
 class AnalyticsEmitter extends EventEmitter {}
 const analyticsEmitter = new AnalyticsEmitter();
 const Analytics = require('./../../modules/data-delivery-pipeline/analytics.model');
-const Asset = require('./../../modules/data-collector/asset.model');
 const Unit = require('./../../modules/data-collector/unit.model');
 
 const processUnits = async (units) => {
