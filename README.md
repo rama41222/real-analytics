@@ -6,7 +6,7 @@
 1. Docker up and running
 2. Node and npm installed
 3. aws-cli
-4. [Postman Collection](https://documenter.getpostman.com/view/2822837/T1DpBd1b) or [goto](./_/)  for postman
+4. [Postman Collection]() or [goto](./docs)  for the collection
  collection and the environment
 
 ### How to run locally
@@ -134,3 +134,36 @@ Skip if you have already setup the following.
  
  <img src="docs/pusherarch.jpg"/>
 
+<hr>
+
+* The Architecture is based on the concept of FaaS hosted on AWS(Other cloud providers also supports this).
+* The main reason to go serverless is that the CSV service will be used mostly 10 times a day and the get api will be
+ used as required. Therefore, we can save the COST according to the execution time rather than having a dedicated
+  server running all the time. Also Scaling is not a problem
+* The CSV is taken through the /store route of the data collector and will be parsed to a json, then validates the
+ keys
+ * After this if everything is valid, the data will be passed to a Redis based Queue(bull) for further processing and
+  storing on to the database
+  * The errors happening while processing data(in queue and the calculation task) will be pushed to the frontend
+   through pusher.
+  . Even the realtime data can be pushed as it gets processed but depends on the requirement.
+   be pushed after chunking but it's not included as not required currently.
+  * The Get API will be used to retrive the data based on the params provided by the end user
+
+### Discussion
+ 
+1. Weaknesses
+   
+     * Currently depends on Serverless framework and AWS. Writing a deployment using Terraform would make this cloud
+      agnostic since almost all cloud providers support FaaS.
+     * The code is mostly production ready
+     * Maintaining the connection state inside lambda is a problem (Cold starts)
+     * Some cross module dependencies which can be avoided by further decoupling the API.
+     
+2. This Repo doesn't include the following
+
+    * Implementing authentication and authorization
+    * Implementing a caching mechanism for the get api
+    * Test cases and increase test coverage
+    * Write some Serverless integration tests
+    * Global Error handling module
