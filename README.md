@@ -1,6 +1,6 @@
 ## Real Analytics API
 
-**Live @ [AWS lambda]( https://i8bsrn67me.execute-api.ap-south-1.amazonaws.com/production/v1/data-collector/{)** 
+**Live @ [AWS lambda]( https://i8bsrn67me.execute-api.ap-south-1.amazonaws.com/production/v1/data-collector/status)** 
 
 ### Prerequisites 
 1. Docker up and running
