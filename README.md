@@ -15,6 +15,11 @@
 2. skip=Number
 3. field=city&order=ASC [ASC, DESC, 1, -1 ]
 
+### Pusher Test UI
+1. Goto [docs/index.html](./docs/index.html)
+2. Serve the index.html via a http server or open it using chrome
+3. open the console for the output from pusher
+
 ### Pusher Errors 
 Sample error thrown while formatting the CSV
 ```json
