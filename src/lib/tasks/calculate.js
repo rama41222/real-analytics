@@ -38,7 +38,7 @@ const processUnits = async (units) => {
 
 
 const calculate = async (assetGroups) => {
-  // per Asset
+  // processes an Asset sent from calculations manager
   const asset = assetGroups.asset;
   const calc = {
     address: asset.address,
@@ -56,15 +56,16 @@ const calculate = async (assetGroups) => {
     walt: 0,
     walt_raw_data: []
   };
-  // tenant
-  Object.keys(assetGroups).map(async k =>{
+  // iterate per tenant belonging to an asset
+  Object.keys(assetGroups).map(async k => {
+    // skip the assets
     if (k === 'asset') {
       return;
     }
-    const units = assetGroups[k];
     // units of a single tenant
     // per tenant
     // units belong to the tenant
+    const units = assetGroups[k];
     let minLeaseStart = 0;
     let maxLeaseEnd = 0;
     let occupancyArea = 0;
@@ -86,7 +87,6 @@ const calculate = async (assetGroups) => {
         calc.walt_raw_data.push({ leaseDiff: 'NA', occupancyArea });
       }
     }
-  // }
   });
   
   for (let w of calc.walt_raw_data) {
