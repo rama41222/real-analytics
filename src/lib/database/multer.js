@@ -4,7 +4,7 @@ const { aws } = require('./../config');
 const s3 = require('./lambda');
 
 /**
- * Multer function to upload
+ * Multer function to upload but the feature was never needed since the removal of cron lambda
  * @type {Multer|undefined}
  */
 const uploader = multer({
@@ -12,23 +12,15 @@ const uploader = multer({
     s3: s3,
     acl: 'public-read',
     bucket: aws.AWS_BUCKET_NAME,
-    // META DATA FOR PUTTING FIELD NAME
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
-    // SET / MODIFY ORIGINAL FILE NAME
     key: function (req, file, cb) {
       console.log(file.originalname, file);
       cb(null, file.originalname); //set unique file name if you wise using Date.toISOString()
-      // EXAMPLE 1
-      // cb(null, Date.now() + '-' + file.originalname);
-      // EXAMPLE 2
-      // cb(null, new Date().toISOString() + '-' + file.originalname);
     }
   }),
-  // SET DEFAULT FILE SIZE UPLOAD LIMIT
   limits: { fileSize: 1024 * 1024 * 50 }, // 50MB
-  // FILTER OPTIONS LIKE VALIDATING FILE EXTENSION
   fileFilter: function(req, file, cb) {
     const filetypes = /xls|xlas|csv/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());

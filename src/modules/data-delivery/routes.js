@@ -1,5 +1,5 @@
 const { status,  fetchAsset, fetchAssets } = require('./view');
-const { upload } = require('./../../lib/database');
+
 /**
  * User Routes
  * @param api
