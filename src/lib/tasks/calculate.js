@@ -133,13 +133,13 @@ const createCalculations = async (calculation) => {
     runValidators: true,
     context: 'query'
   };
-  const res = await Analytics.
+  
+  await Analytics.
   findOneAndUpdate({
     latest_update: calculation.latest_update,
     asset: calculation.asset
   }, calculation, options)
-    .catch(err => console.error('BULK update error:', err))
-  console.log(res);
+    .catch(err => console.error('update error:', err));
 };
 
 const calculationManager = async () => {
@@ -150,7 +150,6 @@ const calculationManager = async () => {
   await Object.keys(unitGroups).map(async key => {
     const asset = unitGroups[key];
     const calculation = await calculate(asset);
-    console.log('c',calculation);
     await createCalculations(calculation);
   });
   
