@@ -7,7 +7,6 @@ const _ = require('lodash');
  * @returns {Promise<*>}
  */
 const validateObject = async (fileKeys) => {
-  console.log(fileKeys)
   const keys = [
     "portfolio",
     "asset_ref",
@@ -26,8 +25,6 @@ const validateObject = async (fileKeys) => {
     "unit_lease_end",
     "data_timestamp",
   ];
-  console.log(keys)
-  console.log(_.isEqual(fileKeys, keys))
   return _.isEqual(fileKeys, keys);
 };
 
