@@ -2,7 +2,7 @@ const Asset = require('./asset.model');
 const Unit = require('./unit.model');
 const { v4: uuidv4 } = require('uuid');
 const { messages } = require('./../../lib');
-const analyticsEmitter = require('./../../lib/helpers');
+const analyticsEmitter = require('../../lib/tasks');
 const { lambda ,processDataQueue, triggerPusherNotification } = require('./../../lib/database');
 const csv =require("csvtojson");
 const { parseObject, fileParser } = require('./../../lib');
@@ -84,9 +84,6 @@ const offLoader = async (jobId, parsedFile) => {
         }
       });
     });
- 
-  
-  
   }
 };
 

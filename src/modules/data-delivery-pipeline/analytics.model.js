@@ -7,9 +7,32 @@ const { Schema } = mongoose;
  * @type {Mongoose.Schema}
  */
 const analyticsSchema = new Schema({
+  address:{
+    type: String,
+    trim: true,
+    required: [true, 'Asset address is required']
+  },
+  zipcode: {
+    type: String,
+    trim: true,
+    required: [true, 'Zip code is required']
+  },
+  city: {
+    type: String,
+    required: [true, `City is required`]
+  },
+  year_of_construction: {
+    type: String,
+    trim: true,
+    required: [true, 'Construction year is required']
+  },
   number_of_units: {
     type: Number,
     required: [true, 'Number of units are required'],
+  },
+  restricted_area: {
+    type: Boolean,
+    required: [true, 'Restricted area is required']
   },
   total_rent: {
     type: Number,
@@ -34,7 +57,7 @@ const analyticsSchema = new Schema({
   asset: {
     type: String,
     ref: 'Asset',
-    required: [true, `Asset reference is required to store the analytics}`]
+    required: [true, `Asset reference is required to store the analytics`]
   },
   latest_update: {
     type: String,
