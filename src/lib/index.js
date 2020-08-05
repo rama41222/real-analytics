@@ -1,6 +1,6 @@
 const middleware = require('./middleware');
 const config = require('./config');
-const { response, messages, parseObject, fileParser } = require('./utils');
+const { response, messages, parseObject, fileParser, validateObject, keyBuilder } = require('./utils');
 
 /**
  * Exposing the required sections of the library
@@ -13,5 +13,7 @@ module.exports = {
   messages,
   middleware,
   parseObject,
-  fileParser
+  fileParser,
+  validateObject,
+  keyBuilder
 };

@@ -8,6 +8,25 @@
 3. aws-cli
 4. [Postman Collection]() or [goto](./docs)  for the collection
  collection and the environment
+ 
+### Listing API Route params
+```{{base_url}}/data-delivery/asset```
+1. limit=Number
+2. skip=Number
+3. field=city&order=ASC [ASC, DESC, 1, -1 ]
+
+### Pusher Errors 
+Sample error thrown while formatting the CSV
+```json
+{
+   "data":{
+      "error":"Invalid Keys: {}",
+      "filename":"crisis2.csv",
+      "job":"ckdhvpjls0002zk6ydomg6liw",
+      "status":false
+   }
+}
+```
 
 ### How to run locally
 Skip if you have already setup the following.

@@ -1,7 +1,7 @@
 const Asset = require('./asset.model');
 const Unit = require('./unit.model');
 const { v4: uuidv4 } = require('uuid');
-const { messages } = require('./../../lib');
+const { messages, validateObject } = require('./../../lib');
 const analyticsEmitter = require('../../lib/tasks');
 const { lambda ,processDataQueue, triggerPusherNotification } = require('./../../lib/database');
 const csv =require("csvtojson");
@@ -108,16 +108,20 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
     .fromString (fileString)
     .subscribe (async (json) =>{
       const savedData = await new Promise(async (resolve,reject)=>{
+        const hasValidKeys = await validateObject(Object.keys(json));
+        if(!hasValidKeys) {
+          return reject(new Error(`Invalid Keys: ${JSON.stringify(json)}`));
+        }
         const { asset, unit, errors} = await parseObject(json);
         if(errors && errors.length > 0) {
-          reject(errors);
+          return reject(new Error(`${errors.toString()}`));
         }
         const assetOptions = { timestamp: asset.timestamp, ref: asset.ref };
         const unitOptions = { timestamp: unit.timestamp, ref: unit.ref };
         const proc =  await process(assetOptions, unitOptions, asset, unit);
         
         if(!proc.success) {
-          reject(new Error(`Database error in: ${JSON.stringify(proc)}`));
+          return reject(new Error(`Database error in: ${JSON.stringify(proc)}`));
         }
         resolve(proc);
         return proc;

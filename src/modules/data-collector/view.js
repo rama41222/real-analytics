@@ -1,4 +1,4 @@
-const { response, messages, parseObject } = require('./../../lib');
+const { response, messages, parseObject} = require('./../../lib');
 const {offLoader ,process, listAssetByRefAndDate } = require('./operations');
 const multipart = require('aws-lambda-multipart-parser');
 
@@ -27,7 +27,10 @@ const store = async(req, res) => {
   } catch (e) {
     return res.status(400).json(response(messages.error.data.parse_error, null, 400));
   }
-  if(!parsedFile || Object.keys(parsedFile).length <= 0) {
+  
+  const fileKeys = Object.keys(parsedFile);
+  
+  if(!parsedFile || fileKeys.length <= 0) {
     return res.status(400).json(response(messages.error.data.not_found, null, 400));
   }
   await offLoader(jobId, parsedFile);

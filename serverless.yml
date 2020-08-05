@@ -37,10 +37,10 @@ functions:
           path: '/v1/data-collector/{proxy+}'
           method: any
           cors: true
-  data-delivery-pipeline:
+  data-delivery:
     handler: src/modules/data-delivery/delivery.handler
     events:
       - http:
-          path: '/v1/data-delivery-pipeline/{proxy+}'
+          path: '/v1/data-delivery/{proxy+}'
           method: any
           cors: true
