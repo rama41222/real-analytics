@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const _ = require('lodash');
+const { keyBuilder } = require('./../utils');
 const moment = require('moment');
 class AnalyticsEmitter extends EventEmitter {}
 const analyticsEmitter = new AnalyticsEmitter();
@@ -36,26 +37,6 @@ const processUnits = async (units) => {
   return unitGroups;
 };
 
-const keyBuilder = (tenant, type, leaseStart, leaseEnd) => {
-  let key = '';
-  
-  if (tenant) {
-    key += tenant.toLowerCase().replace(/\s/g, '_');
-  }
-  if (type) {
-    key += `_${ type.toLowerCase() }`
-  }
-  
-  if (leaseStart) {
-    key += `_${ leaseStart }`
-  }
-  
-  if (leaseEnd) {
-    key += `_${ leaseEnd }`
-  }
-  
-  return key;
-};
 
 const calculate = async (assetGroups) => {
   // per Asset
