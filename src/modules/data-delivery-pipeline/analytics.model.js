@@ -51,7 +51,7 @@ const analyticsSchema = new Schema({
     required: [true, 'Vacancy percentage is required'],
   },
   walt: {
-    type: Number,
+    type: Schema.Types.Mixed,
     required: [true, 'WALT value must be calculated']
   },
   asset: {
@@ -66,5 +66,6 @@ const analyticsSchema = new Schema({
   }
 }, { strict: true, timestamps: true });
 
+analyticsSchema.index({ timestamp: -1, asset: 1 }, { unique: true });
 module.exports = mongoose.model('Analytics', analyticsSchema);
 

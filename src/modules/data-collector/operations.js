@@ -36,7 +36,7 @@ const process = async(assetOptions, unitOptions, asset, unit) => {
  * @returns {Promise<void>}
  */
 const offLoader = async (jobId, parsedFile) => {
-  const options = { delay: 5000, attempts: 1 };
+  const options = { delay: 0, attempts: 1 };
   let active = false;
   for(let filename in parsedFile) {
     let qId = uuidv4();

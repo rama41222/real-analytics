@@ -68,6 +68,7 @@ const calculate = async (assetGroups) => {
     restricted_area: asset.is_restricted,
     latest_update: asset.timestamp,
     total_rent: 0,
+    asset: asset._id,
     total_area: 0,
     number_of_units: 0,
     area_rented: 0,
@@ -76,7 +77,7 @@ const calculate = async (assetGroups) => {
     walt_raw_data: []
   };
   // tenant
-  Object.keys(assetGroups).map(async k => {
+  Object.keys(assetGroups).map(async k =>{
     if (k === 'asset') {
       return;
     }
@@ -105,6 +106,7 @@ const calculate = async (assetGroups) => {
         calc.walt_raw_data.push({ leaseDiff: 'NA', occupancyArea });
       }
     }
+  // }
   });
   
   for (let w of calc.walt_raw_data) {
@@ -123,20 +125,35 @@ const calculate = async (assetGroups) => {
   return calc;
 };
 
-const createCalculations = async (calculations) => {
-
+const createCalculations = async (calculation) => {
+  const options = {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+    runValidators: true,
+    context: 'query'
+  };
+  const res = await Analytics.
+  findOneAndUpdate({
+    latest_update: calculation.latest_update,
+    asset: calculation.asset
+  }, calculation, options)
+    .catch(err => console.error('BULK update error:', err))
+  console.log(res);
 };
 
 const calculationManager = async () => {
-  const asset = await Asset.findOne().sort({ timestamp: -1 });
-  const latestTime = asset.timestamp;
-  const units = await Unit.find({ timestamp: latestTime }).populate('asset').exec();
+  // const asset = await Asset.findOne().sort({ timestamp: -1 });
+  // const latestTime = asset.timestamp;
+  const units = await Unit.find().populate('asset').exec();
   const unitGroups = await processUnits(units);
   await Object.keys(unitGroups).map(async key => {
     const asset = unitGroups[key];
-    const calculations = await calculate(asset);
-    await createCalculations(calculations);
+    const calculation = await calculate(asset);
+    console.log('c',calculation);
+    await createCalculations(calculation);
   });
+  
 };
 
 analyticsEmitter.on('calculate', calculationManager);
