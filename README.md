@@ -179,10 +179,10 @@ Skip if you have already setup the following.
      * Maintaining the connection state inside lambda is a problem (Cold starts)
      * Some cross module dependencies which can be avoided by further decoupling the API.
      
-2. This Repo doesn't include the following
+2. Todos and Improvements
 
-    * Implementing authentication and authorization
-    * Implementing a caching mechanism for the get api
-    * Test cases and increase test coverage
-    * Write some Serverless integration tests
-    * Global Error handling module
+    * Implementing authentication and authorization.
+    * Implementing a caching mechanism for the get api.
+    * Increase test coverage.
+    * No Serverless integration tests are included.
+    * Global Error handling module.
