@@ -142,7 +142,7 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
  * @returns {Promise<AggregationCursor|RegExpExecArray>}
  */
 const listAssetByRefAndDate = async({ref, timestamp}) => {
-  return Asset.findOne({ ref, timestamp }, { __v: 0 }).exec();
+  return await Asset.findOne({ ref, timestamp }, { __v: 0 }).exec();
 };
 
 /**
@@ -151,7 +151,7 @@ const listAssetByRefAndDate = async({ref, timestamp}) => {
  * @returns {Promise<boolean>}
  */
 const listUnitByRef = async(ref) => {
-  const count = Unit.findOne({ ref }, { __v: 0 }).exec();
+  const count = await Unit.findOne({ ref }, { __v: 0 }).exec();
   return count > 0;
 };
 

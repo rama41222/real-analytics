@@ -4,7 +4,7 @@ const { keyBuilder } = require('./../utils');
 const moment = require('moment');
 class AnalyticsEmitter extends EventEmitter {}
 const analyticsEmitter = new AnalyticsEmitter();
-const Analytics = require('./../../modules/data-delivery-pipeline/analytics.model');
+const Analytics = require('../common.models');
 const Unit = require('./../../modules/data-collector/unit.model');
 
 const processUnits = async (units) => {
