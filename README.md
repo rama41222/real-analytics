@@ -191,3 +191,7 @@ Skip if you have already setup the following.
     * Increase test coverage.
     * No Serverless integration tests are included.
     * Global Error handling module.
+
+3. Problems faced
+ There was a memory leak issue related to the event emitter. As a solution, had to increase the emitter limit
+ <img src="docs/logs.jpeg">

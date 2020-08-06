@@ -25,6 +25,7 @@ const validateObject = async (fileKeys) => {
     "unit_lease_end",
     "data_timestamp",
   ];
+  console.log(_.isEqual(fileKeys, keys));
   return _.isEqual(fileKeys, keys);
 };
 

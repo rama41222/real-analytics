@@ -7,6 +7,8 @@ const analyticsEmitter = new AnalyticsEmitter();
 const Analytics = require('../common.models');
 const Unit = require('./../../modules/data-collector/unit.model');
 
+analyticsEmitter.setMaxListeners(0);
+
 const processUnits = async (units) => {
   const unitGroups = {};
   units.forEach(i => {
@@ -114,12 +116,14 @@ const createCalculations = async (calculation) => {
     context: 'query'
   };
   
-  await Analytics.
+  const analytic = await Analytics.
   findOneAndUpdate({
     latest_update: calculation.latest_update,
     asset: calculation.asset
   }, calculation, options)
     .catch(err => console.error('update error:', err));
+  console.log('Analytics created',analytic);
+  return analytic;
 };
 
 const calculationManager = async () => {
@@ -132,7 +136,6 @@ const calculationManager = async () => {
     const calculation = await calculate(asset);
     await createCalculations(calculation);
   });
-  
 };
 
 analyticsEmitter.on('calculate', calculationManager);

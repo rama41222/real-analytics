@@ -1,4 +1,5 @@
 'use strict';
+require('events').EventEmitter.prototype._maxListeners = 0;
 const api = require('lambda-api')({ version: 'v1.0', base:'/v1/data-delivery'});
 const routes = require('./routes');
 const { middleware } = require('./../../lib');
@@ -6,6 +7,15 @@ const { database } = require('./../../lib/database');
 middleware(api);
 routes(api);
 let connection;
+//
+// process
+//   .on('unhandledRejection', (reason, p) => {
+//     console.error(reason, 'Unhandled Rejection at Promise', p);
+//   })
+//   .on('uncaughtException', err => {
+//     console.error(err, 'Uncaught Exception thrown');
+//     process.exit(1);
+//   });
 
 /**
  * Main Handler function for Lambda
@@ -16,7 +26,7 @@ let connection;
  */
 module.exports.handler = async (event, context, cb) => {
   // Checking if the event loop is empty
-  context.callbackWaitsForEmptyEventLoop = false;
+     context.callbackWaitsForEmptyEventLoop = false;
   // Reusing the mongodb connection whenever possible to keep away from cold starts
   if(connection) {
     return api.run(event, context, cb);

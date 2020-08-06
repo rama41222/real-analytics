@@ -32,6 +32,7 @@ provider:
 functions:
   data-collector:
     handler: src/modules/data-collector/data.handler
+    timeout: 30
     events:
       - http:
           path: '/v1/data-collector/{proxy+}'
@@ -39,6 +40,7 @@ functions:
           cors: true
   data-delivery:
     handler: src/modules/data-delivery/delivery.handler
+    timeout: 10
     events:
       - http:
           path: '/v1/data-delivery/{proxy+}'
