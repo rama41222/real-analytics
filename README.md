@@ -19,6 +19,8 @@
 1. Goto [docs/index.html](./docs/index.html)
 2. Serve the index.html via a http server or open it using chrome
 3. open the console for the output from pusher
+ 
+ <img src="docs/pusher.png">
 
 ### Pusher Errors 
 Sample error thrown while formatting the CSV
@@ -193,5 +195,11 @@ Skip if you have already setup the following.
     * Global Error handling module.
 
 3. Problems faced
- There was a memory leak issue related to the event emitter. As a solution, had to increase the emitter limit
+ There was a memory leak issue related to the event emitter. As a solution, had to increase the emitter limit.
+ But since it was not a long term solution, the redis queue, the event emitter was replaced by AWS SQS infrastructure
  <img src="docs/logs.jpeg">
+ 
+### New 
+Once the Lambda function returns, the function literally freezes. Therefore all the ongoing operations will not
+ continue, sometimes ended up throwing unhandled promise rejections(Specially with Bull queue). Therefore there should
+  be a sync lambda and a async lambda chained together to execute async /background operations.
