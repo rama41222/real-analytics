@@ -156,7 +156,7 @@ Skip if you have already setup the following.
 4. The CSV files will be added newly only if the timestamp is different. If it's same, it will update the data
  already in the database if exists, else it will create the missing data.
     
-### Architectural diagram and a brief summery.
+### Architectural diagram and a brief summary.
  
  <img src="docs/pusherarch.jpg"/>
 
