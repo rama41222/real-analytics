@@ -1,7 +1,7 @@
 const { status,  fetchAsset, fetchAssets } = require('./view');
 
 /**
- * User Routes
+ * Data Delivery Routes
  * @param api
  * @param opts
  */
