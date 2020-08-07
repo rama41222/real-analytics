@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 /**
+ * @Deprecated
  * Upload Schema
  * Saves the file upload response from data collection api
  * @type {Mongoose.Schema}

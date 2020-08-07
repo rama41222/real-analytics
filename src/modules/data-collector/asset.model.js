@@ -46,6 +46,9 @@ const assetSchema = new Schema({
   }
 }, { strict: true, timestamps: true });
 
+/**
+ * Creates a unique key for timestamp and ref so that for the save CSV it will not create duplicates
+ */
 assetSchema.index({ timestamp: -1, ref: 1 }, { unique: true });
 module.exports = mongoose.model('Asset', assetSchema);
 

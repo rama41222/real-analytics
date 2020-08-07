@@ -52,6 +52,9 @@ const unitSchema = new Schema({
   }
 }, { strict: true, timestamps: true });
 
+/**
+ * Create a unique constaint for timestamp and ref and asset to prevent duplicates
+ */
 unitSchema.index({ timestamp: -1, ref: 1,  asset: 1 }, { unique: true });
 module.exports = mongoose.model('Unit', unitSchema);
 

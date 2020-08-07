@@ -3,22 +3,25 @@ const Unit = require('./unit.model');
 const analyticsQueue  = require('./../queues');
 
 /**
- *
+ * Offloader is use to send tasks to the queue modules
  * @param jobId
  * @param parsedFile
  * @returns {Promise<void>}
  */
 const offLoader = async (jobId, parsedFile) => {
+  // Perform the action in eventloop
   return process.nextTick(()=> {
-    
+    // Queue options
     const jobOptions = {
       delay: 0,
       attempts: 2,
     };
-  
+    // for each file
     for(let filename in parsedFile) {
+      // data object
       const data = { jobId, filename: parsedFile[filename].filename, parsedFile: parsedFile[filename] };
       console.log('calling the queue');
+      // add the job to the queue
       analyticsQueue.add(data, jobOptions);
     }
   });
