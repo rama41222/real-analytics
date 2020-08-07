@@ -37,9 +37,9 @@ const store = async(req, res) => {
     return res.status(400).json(response(messages.error.data.not_found, null, 400));
   }
   // offload the task to the bull queue
-  await offLoader(jobId, parsedFile);
+  const status = await offLoader(jobId, parsedFile);
   // success response
-  res.status(200).json(response(messages.success.offloaded, { jobId }, 200));
+  res.status(200).json(response(messages.success.offloaded, { jobId, status }, 200));
 };
 
 module.exports = {

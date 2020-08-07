@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "mocha ./tests --timeout 20000 -- testing"
+    "test": "mocha ./tests --recursive --timeout 20000 -- testing"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fast-csv": "^4.3.1",
+    "ioredis": "^4.17.3",
     "joi": "^17.1.1",
     "lambda-api": "^0.10.6",
     "lodash": "^4.17.19",
@@ -40,6 +41,7 @@
     "pusher": "^3.0.1",
     "raw-body": "^2.4.1",
     "serverless-http": "^2.5.0",
+    "serverless-offline-sqs": "^4.0.1",
     "strip-bom": "^4.0.0",
     "uuid": "^8.3.0",
     "yerror": "^5.0.0"
@@ -49,6 +51,7 @@
     "mocha": "^8.0.1",
     "serverless-apigw-binary": "^0.4.4",
     "serverless-dotenv-plugin": "^3.0.0",
-    "serverless-offline": "^6.5.0"
+    "serverless-offline": "^6.5.0",
+    "serverless-webpack": "^5.3.3"
   }
 }

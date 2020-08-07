@@ -1,9 +1,9 @@
 const csv = require("csvtojson");
-const { lambda ,processDataQueue, triggerPusherNotification } = require('./../../lib/database');
+const { lambda , triggerPusherNotification } = require('./../../lib/database');
 const { parseObject, fileParser } = require('./../../lib');
 const { messages, validateObject } = require('./../../lib');
-const Asset = require('./../data-collector/asset.model');
-const Unit = require('./../data-collector/unit.model');
+const Asset = require('../data-collector/models/asset');
+const Unit = require('../data-collector/models/unit');
 
 /**
  * Process each job added to the queue, this function is a parameter to the create analytics queue
@@ -39,10 +39,9 @@ const process = async(assetOptions, unitOptions, asset, unit) => {
  * @param filename
  * @param jobId
  * @param parsedFile
- * @param done
  * @returns {Promise<boolean|any>}
  */
-const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
+const dataVerifier = async({ filename, jobId, parsedFile }) => {
   // If no parse file
   if(!parsedFile || !parsedFile.content) {
     return false;
@@ -99,7 +98,6 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
       await triggerPusherNotification({
         job: jobId, filename: filename, units: null, status: false, error: error
       });
-      done();
     });
     
   // return the validated file
@@ -109,43 +107,41 @@ const dataVerifier = async({ filename, jobId, parsedFile }, done) => {
 /**
  * Handles the data verifier outcomes
  * @param job
- * @param done
  * @returns {Promise<void>}
  */
-const processor = async (job, done) => {
+const processor = async (job) => {
   console.log('called');
   try {
     // Check if the data verifier returns proper object
-    const completedData = await dataVerifier(job.data, done);
+    const completedData = await dataVerifier(job);
     // Triggers the completed notifications to the frontend
     if(completedData) {
       await triggerPusherNotification( {
-        job: job.data.jobId,
-        filename: job.data.filename,
+        job: job.jobId,
+        filename: job.filename,
         units: completedData.length,
         status: true,
         error: null
       })
     } else {
       await triggerPusherNotification( {
-        job: job.data.jobId,
-        filename: job.data.filename,
+        job: job.jobId,
+        filename: job.filename,
         units: null,
         status: false,
-        error: messages.error.data.invalid
+        error: messages.error.invalid
       })
     }
   } catch(e) {
     await triggerPusherNotification({
-      job: job.data.jobId,
-      filename: job.data.filename,
+      job: job.jobId,
+      filename: job.filename,
       units: null,
       status: false,
       error: e.message
     });
   } finally {
-    console.log(`Queue finished for ${job.data.jobId}`);
-    done()
+    console.log(`Queue finished for ${job.jobId}`);
   }
 };
 

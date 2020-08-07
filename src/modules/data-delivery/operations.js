@@ -1,5 +1,5 @@
-const Asset = require('./../data-collector/asset.model');
-const Analytics = require('./../../lib/common.models');
+const Asset = require('../data-collector/models/asset');
+const Analytics = require('../../lib/common/models');
 
 /**
  *

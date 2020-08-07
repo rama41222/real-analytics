@@ -1,5 +1,8 @@
+const calculationsManager =  require('./calculate');
 /**
  * Main tasks file
- * @type {AnalyticsEmitter}
+ * @type {calculationsManager}
  */
-module.exports = require('./calculate');
+module.exports = {
+  calculationsManager
+};

@@ -1,6 +1,7 @@
-const Asset = require('./asset.model');
-const Unit = require('./unit.model');
-const analyticsQueue  = require('./../queues');
+const Asset = require('./models/asset');
+const Unit = require('./models/unit');
+// const { connect } = require('./../queues');
+const { queue } = require('./../../lib/database');
 
 /**
  * Offloader is use to send tasks to the queue modules
@@ -9,22 +10,43 @@ const analyticsQueue  = require('./../queues');
  * @returns {Promise<void>}
  */
 const offLoader = async (jobId, parsedFile) => {
-  // Perform the action in eventloop
-  return process.nextTick(()=> {
+  return await new Promise( async(resolve, reject) => {
     // Queue options
-    const jobOptions = {
-      delay: 0,
-      attempts: 2,
-    };
+    // const jobOptions = {
+    //   delay: 0,
+    //   attempts: 2,
+    // };
+  
+    console.log('calling the queue');
+    
     // for each file
-    for(let filename in parsedFile) {
+    for (let filename in parsedFile) {
+    
       // data object
       const data = { jobId, filename: parsedFile[filename].filename, parsedFile: parsedFile[filename] };
-      console.log('calling the queue');
+      
+      const jobOptions = {
+        QueueUrl: queue.queueUrl,
+        MessageBody: JSON.stringify(data)
+      };
+      queue.sqs.sendMessage(jobOptions, function (err, resp) {
+        if(err) {
+          return reject(new Error('error when adding to queue:' + err));
+        }
+        return resolve(resp);
+      });
       // add the job to the queue
-      analyticsQueue.add(data, jobOptions);
+      // await connect.then(queue => {
+      //
+      //   queue.add(data, jobOptions);
+      //
+      //   console.log('added the job', jobId)
+      // }).catch(e => {
+      //   return reject(new Error('error when adding to queue:' + e))
+      // })
     }
   });
+  
 };
 
 /**
@@ -32,8 +54,8 @@ const offLoader = async (jobId, parsedFile) => {
  * @param ref
  * @returns {Promise<AggregationCursor|RegExpExecArray>}
  */
-const listAssetByRefAndDate = async({ref, timestamp}) => {
-  return await Asset.findOne({ ref, timestamp }, { __v: 0 }).exec();
+const listAssetByRefAndDate = async ({ ref, timestamp }) => {
+  return Asset.findOne({ ref, timestamp }, { __v: 0 }).lean();
 };
 
 /**
@@ -41,9 +63,9 @@ const listAssetByRefAndDate = async({ref, timestamp}) => {
  * @param ref
  * @returns {Promise<boolean>}
  */
-const listUnitByRef = async(ref) => {
-  const count = await Unit.findOne({ ref }, { __v: 0 }).exec();
-  return count > 0;
+const listUnitByRef = async (ref) => {
+  const unit = await Unit.findOne({ ref }, { __v: 0 }).lean();
+  return unit;
 };
 
 module.exports = {

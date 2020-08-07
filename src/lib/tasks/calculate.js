@@ -1,16 +1,17 @@
-const EventEmitter = require('events');
+// const EventEmitter = require('events');
 const _ = require('lodash');
 const { keyBuilder } = require('./../utils');
 const moment = require('moment');
-class AnalyticsEmitter extends EventEmitter {}
-const analyticsEmitter = new AnalyticsEmitter();
-const Analytics = require('../common.models');
-const Unit = require('./../../modules/data-collector/unit.model');
+// class AnalyticsEmitter extends EventEmitter {}
+// const analyticsEmitter = new AnalyticsEmitter();
+const Asset = require('../../modules/data-collector/models/asset');
+const Unit = require('../../modules/data-collector/models/unit');
+const Analytics = require('../common/models');
 
 /**
  * Listener limit for the event emitter
  */
-analyticsEmitter.setMaxListeners(0);
+// analyticsEmitter.setMaxListeners(0);
 
 /**
  * Process the units
@@ -177,17 +178,18 @@ const calculationManager = async () => {
   // Group the units by asset
   const unitGroups = await processUnits(units);
   // For each unit group
-  await Object.keys(unitGroups).map(async key => {
+  return Object.keys(unitGroups).map(async key => {
     const asset = unitGroups[key];
     // Group by tenant per asset and calculate walt
     const calculation = await calculate(asset);
     // Save in the database
-    await createCalculations(calculation);
+    return await createCalculations(calculation);
   });
 };
 
 /**
  * Analytics emitter listener
  */
-analyticsEmitter.on('calculate', calculationManager);
-module.exports = analyticsEmitter;
+// analyticsEmitter.on('calculate', calculationManager);
+// module.exports = analyticsEmitter;
+module.exports = calculationManager;
