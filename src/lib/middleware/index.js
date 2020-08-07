@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 module.exports = async (app) => {
   app.use(bodyParser.json({ strict: false }));
   
+ //  removed the builtin cors
  //  api.use((req, res, next) => {
  //   res.cors();
  //   next();

@@ -1,5 +1,10 @@
 const Queue = require('bull');
 const { redis, app } = require('./../config');
+
+/**
+ * Redis Options for the bull queue
+ * @type {{password: string, port: (string|number), host: string, connectTimeout: number, maxRetriesPerRequest: null, enableReadyCheck: boolean}}
+ */
 const opts = {
   host: redis.ENDPOINT,
   port: redis.PORT,
@@ -9,10 +14,11 @@ const opts = {
   connectTimeout: 30000,
 };
 
-// if(app.ENV === 'production') {
-//   opts.tls = { servername: redis.ENDPOINT };
-// }
 
+/**
+ * New Queue for data processing
+ * @type {Queue}
+ */
 const processDataQueue = new Queue('processData', {
   redis: opts
 });

@@ -1,7 +1,7 @@
 /**
- * All the custom messages can be but here
+ *  All the custom messages can be but here
  * Group by module name
- * @type {{success: {general: string, update: string, login: string, content: {created: string}, register: string}, error: {login: string, user: {unauthorized: string, invalid: string, update: string, registration: string, duplicate: string, not_found: string}, content: {unauthorized: string, invalid: string, duplicate: string, not_found: string, creation: string}}}}
+ * @type {{success: {offloaded: string, general: string, data: {created: string}, update: string}, error: {data: {parse_error: string, unauthorized: string, invalid: string, not_found: string, upload_failed: string, creation: string}}}}
  */
 module.exports = {
   success: {
