@@ -100,8 +100,8 @@ Skip if you have already setup the following.
  sls offline start --stage development 
 ```  
 ### Unit tests
-* 6 test cases covering the major functionality.
- 
+* test cases covering the delivery operations.
+
  ```shell script
   npm run test
  ```

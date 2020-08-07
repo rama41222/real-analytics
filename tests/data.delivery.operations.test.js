@@ -16,14 +16,36 @@ describe('Delivery operations.js', () => {
   });
   
   describe('Delivery Module', () => {
+    after(async ()=> {});
+    let analyticsObject;
     
-    after(async ()=> {
+    it('List all analytics', async () => {
+      const opts = {};
+      const sort = {};
+      const assets = await operations.list(2, 0, sort, opts);
+      expect(assets).to.not.be.undefined;
+      expect(assets).to.have.property('total');
+      expect(assets).to.have.property('analytics');
+      expect(assets.analytics).to.be.instanceOf(Array);
+      expect(assets.analytics.length).to.be.within(0,2);
+      expect(assets.total).to.be.a('number');
+      analyticsObject = assets.analytics[0];
+      return assets
+    });
+  
+    it('List analytics object snapshot', async () => {
+      if(!analyticsObject) {
+        expect(analyticsObject).to.be.undefined;
+      } else {
+        expect(analyticsObject).to.be.instanceof(Object);
+        expect(analyticsObject).have.keys(["_id", "latest_update",
+          "address", "area_rented", "city","number_of_units",
+          "restricted_area", "total_area", "total_rent", "vacancy",
+          "walt", "year_of_construction", "zipcode"]);
+      }
     
     });
     
-    it('List all assets', async () => {
-      const assets = await operations.list(2, 0);
-    });
   });
 });
 
