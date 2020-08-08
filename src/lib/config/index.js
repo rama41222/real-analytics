@@ -1,9 +1,6 @@
 const {
   APP_NAME,
   NODE_ENV,
-  JWT_ALGORITHM,
-  JWT_EXP,
-  JWT_SECRET,
   L_AWS_ACCESS_KEY,
   L_AWS_SECRET,
   L_AWS_REGION,
@@ -13,9 +10,6 @@ const {
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
-  REDIS_ENDPOINT,
-  REDIS_PASSWORD,
-  REDIS_PORT,
   PUSHER_APP_ID,
   PUSHER_KEY,
   PUSHER_SECRET,
@@ -52,24 +46,11 @@ const baseSettings  = {
       url: `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${NODE_ENV}-${DB_NAME}` || `mongodb://localhost/${NODE_ENV}-${APP_NAME}`,
       host: `${DB_HOST}` || 'mongodb://localhost/user-service'
   },
-  redis: {
-    PASSWORD: REDIS_PASSWORD || '',
-    ENDPOINT: REDIS_ENDPOINT || '127.0.0.1',
-    PORT: REDIS_PORT || 6379
-  },
   pusher_keys: {
     app_id: PUSHER_APP_ID,
     key: PUSHER_KEY,
     secret: PUSHER_SECRET,
     cluster: PUSHER_CLUSTER,
-  },
-  jwt: {
-    algorithm: JWT_ALGORITHM || 'HS256',
-    secret: JWT_SECRET,
-    exp: JWT_EXP
-  },
-  hash: {
-    saltRounds: 3,
   }
 };
 
