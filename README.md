@@ -206,13 +206,12 @@ PUSHER_CLUSTER=
   server running all the time. Also Scaling is not a problem
 * The CSV is taken through the /store route of the data collector and will be parsed to a json, then validates the
  keys
- * After this if everything is valid, the data will be passed to a Redis based Queue(bull) for further processing and
-  storing on to the database
+ * After this if everything is valid, the data will be passed to AWS SQS for further processing and
+  stored in the database
   * The errors happening while processing data(in queue and the calculation task) will be pushed to the frontend
    through pusher.
-  . Even the realtime data can be pushed as it gets processed but depends on the requirement.
-   be pushed after chunking but it's not included as not required currently.
-  * The Get API will be used to retrive the data based on the params provided by the end user
+  * Even the realtime data can be pushed as it gets processed but depends on the requirement.
+  * The Get API will be used to retrieve the data based on the params provided by the end user
 
 ### Discussion
  
