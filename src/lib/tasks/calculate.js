@@ -187,14 +187,18 @@ const createCalculations = async (calculation) => {
  * Main handler for the calculation events
  * @returns {Promise<void>}
  */
-const calculationManager = async () => {
+const calculationManager = async (timestamp) => {
   
   // Removed these latest date to allow multiple CSV files at once
   // const asset = await Asset.findOne().sort({ timestamp: -1 });
   // const latestTime = asset.timestamp;
   
+  const opts = {};
+  // get timestamp if available
+  if(timestamp) opts.timestamp = timestamp;
+  
   // get the units
-  const units = await Unit.find().populate('asset').exec();
+  const units = await Unit.find(opts).populate('asset').exec();
   
   // Group the units by asset
   const unitGroups = await processUnits(units);

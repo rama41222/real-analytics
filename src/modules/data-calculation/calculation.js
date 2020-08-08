@@ -26,12 +26,14 @@ module.exports.handler = async (event, context, cb) => {
     if (!connection) {
       
       database.connect.then(async result => {
+        
         connection = result;
         console.log('Connection Status', !!connection);
         
         // Process CSVs
-        await processor(JSON.parse(event.Records[0].body));
-        return resolve(await calculationsManager());
+        const timestamp = await processor(JSON.parse(event.Records[0].body));
+        console.log(`timestamp: ${timestamp} sent for calculation`);
+        return resolve(await calculationsManager(timestamp));
         
       }).catch(e => {
         
@@ -43,8 +45,9 @@ module.exports.handler = async (event, context, cb) => {
     }
     
     // Process CSVs
-    await processor(JSON.parse(event.Records[0].body));
-    return resolve(await calculationsManager());
+    const timestamp = await processor(JSON.parse(event.Records[0].body));
+    console.log(`timestamp: ${timestamp} sent for calculation for existing connection`);
+    return resolve(await calculationsManager(timestamp));
   });
   
   cb(null, result);

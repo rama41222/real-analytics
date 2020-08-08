@@ -42,7 +42,7 @@ describe('Delivery operations.js', () => {
         expect(analyticsObject).have.keys(["_id", "latest_update",
           "address", "area_rented", "city", "number_of_units",
           "restricted_area", "total_area", "total_rent", "vacancy",
-          "walt", "year_of_construction", "zipcode"]);
+          "walt", "year_of_construction", "zipcode", "asset"]);
       }
       
     });
