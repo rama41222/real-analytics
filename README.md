@@ -49,7 +49,7 @@ Skip if you have already setup the following.
     $ npm install -g serverless
     $ sls login
     # create a serverless app on dashboard   
-    $ serverless --org {organization name} --app youtube-collections
+    $ serverless --org {organization name} --app real-analytics
     ```
 3. Run the Mongodb locally
     ```shell script
