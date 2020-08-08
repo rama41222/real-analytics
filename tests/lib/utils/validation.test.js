@@ -5,7 +5,9 @@ dotenv.config({ path: `./env/.env.${ env }` });
 const { validateObject } = require('../../../src/lib');
 
 describe('Lib module', () => {
+  
   let testObject = {};
+  
   before(() => {
     testObject = {
       portfolio: 'test_value',
