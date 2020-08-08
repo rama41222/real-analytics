@@ -66,6 +66,6 @@ const analyticsSchema = new Schema({
   }
 }, { strict: true, timestamps: true });
 
-analyticsSchema.index({ timestamp: -1, asset: 1 }, { unique: true });
+analyticsSchema.index({ latest_update: -1, asset: 1 }, { unique: true });
 module.exports = mongoose.model('Analytics', analyticsSchema);
 
