@@ -13,7 +13,7 @@
 ```{{base_url}}/data-delivery/asset```
 1. limit=Number
 2. skip=Number
-3. field=city&order=ASC [ASC, DESC, 1, -1 ]
+3. field=city&order=ASC [asc, desc, 1, -1 ]
 
 ### Pusher Test UI
 1. Goto [docs/index.html](./docs/index.html)
