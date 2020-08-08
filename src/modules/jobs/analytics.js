@@ -116,6 +116,7 @@ const dataVerifier = async ({ filename, jobId, parsedFile }) => {
         await triggerPusherNotification({
           job: jobId, filename: filename, units: null, status: false, error: e.message
         });
+        
       });
       return savedData;
     }, async (error) => {
