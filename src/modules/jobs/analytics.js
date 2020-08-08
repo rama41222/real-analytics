@@ -144,31 +144,22 @@ const processor = async (job) => {
     
     // Triggers the completed notifications to the frontend
     if (completedData) {
+      
       await triggerPusherNotification({
-        job: job.jobId,
-        filename: job.filename,
-        units: completedData.length,
-        status: true,
-        error: null
+        job: job.jobId, filename: job.filename, units: completedData.length, status: true, error: null
       });
-      console.log(completedData.length > 0 ? completedData[0].timestamp : 'NA');
-      return completedData.length > 0 ? completedData[0].timestamp : '';
+      
+      console.log('next process',completedData[0].data_timestamp);
+      return completedData.length > 0 ? completedData[0].data_timestamp : '';
+      
     } else {
       await triggerPusherNotification({
-        job: job.jobId,
-        filename: job.filename,
-        units: null,
-        status: false,
-        error: messages.error.invalid
+        job: job.jobId, filename: job.filename, units: null, status: false, error: messages.error.invalid
       })
     }
   } catch (e) {
     await triggerPusherNotification({
-      job: job.jobId,
-      filename: job.filename,
-      units: null,
-      status: false,
-      error: e.message
+      job: job.jobId, filename: job.filename, units: null, status: false, error: e.message
     });
   } finally {
     console.log(`Queue finished for ${ job.jobId }`);
