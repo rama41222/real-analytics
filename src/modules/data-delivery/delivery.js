@@ -1,5 +1,4 @@
 'use strict';
-require('events').EventEmitter.prototype._maxListeners = 0;
 const api = require('lambda-api')({ version: 'v1.0', base: '/v1/data-delivery' });
 const routes = require('./routes');
 const { middleware } = require('./../../lib');

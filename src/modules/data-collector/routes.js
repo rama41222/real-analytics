@@ -1,5 +1,5 @@
 const { status, store } = require('./view');
-const { upload } = require('./../../lib/database');
+
 /**
  * Data collector Routes
  * @param api

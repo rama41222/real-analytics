@@ -1,5 +1,5 @@
-const { response, messages, parseObject } = require('./../../lib');
-const { offLoader, process, listAssetByRefAndDate } = require('./operations');
+const { response, messages } = require('./../../lib');
+const { offLoader } = require('./operations');
 const multipart = require('aws-lambda-multipart-parser');
 
 
