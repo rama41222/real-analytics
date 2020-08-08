@@ -4,7 +4,7 @@ const { aws } = require('./../config');
 const s3 = require('./lambda');
 
 /**
- * Multer function to upload but the feature was never needed since the removal of cron lambda
+ * @deprecated Multer function to upload but the feature for large files
  * @type {Multer|undefined}
  */
 const uploader = multer({
@@ -17,17 +17,24 @@ const uploader = multer({
     },
     key: function (req, file, cb) {
       console.log(file.originalname, file);
-      cb(null, file.originalname); //set unique file name if you wise using Date.toISOString()
+      cb(null, file.originalname);
     }
   }),
-  limits: { fileSize: 1024 * 1024 * 50 }, // 50MB
-  fileFilter: function(req, file, cb) {
+  limits: {
+    fileSize: 1024 * 1024 * 50
+  }, // 50MB
+  fileFilter: function (req, file, cb) {
+    
     const filetypes = /xls|xlas|csv/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
+    
     console.log(mimetype, extname, filetypes);
+    
     if (mimetype && extname) {
+      
       return cb(null, true);
+      
     } else {
       cb("Error: Allow images only of extensions jpeg|jpg|png !");
     }

@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const dotenv = require('dotenv');
-const env = process.argv[process.argv.length-1];
-dotenv.config({path: `./env/.env.${env}`});
+const env = process.argv[process.argv.length - 1];
+dotenv.config({ path: `./env/.env.${ env }` });
 const { database } = require('../../src/lib/database');
 const { config } = require('../../src/lib');
 let operations = require('../../src/modules/data-delivery/operations');
@@ -9,14 +9,14 @@ let operations = require('../../src/modules/data-delivery/operations');
 describe('Delivery operations.js', () => {
   before(() => {
     return Promise.resolve(
-      database.connect.then( data => {
+      database.connect.then(data => {
         return { data }
       })
     );
   });
   
   describe('Delivery Module', () => {
-    after(async ()=> {});
+    
     let analyticsObject;
     
     it('List all analytics', async () => {
@@ -32,19 +32,19 @@ describe('Delivery operations.js', () => {
       analyticsObject = assets.analytics[0];
       return assets
     });
-  
+    
     it('List analytics object snapshot', async () => {
-      if(!analyticsObject) {
+      if (!analyticsObject) {
         expect(analyticsObject).to.be.undefined;
       } else {
         expect(analyticsObject).to.not.be.undefined;
         expect(analyticsObject).to.be.instanceof(Object);
         expect(analyticsObject).have.keys(["_id", "latest_update",
-          "address", "area_rented", "city","number_of_units",
+          "address", "area_rented", "city", "number_of_units",
           "restricted_area", "total_area", "total_rent", "vacancy",
           "walt", "year_of_construction", "zipcode"]);
       }
-    
+      
     });
     
   });

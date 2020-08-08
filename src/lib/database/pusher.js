@@ -15,7 +15,7 @@ const pusher = new Pusher({
  * @param data
  * @returns {Promise<void>}
  */
-const triggerPusherNotification = async(data) => {
+const triggerPusherNotification = async (data) => {
   pusher.trigger('real-analytics', 'file-upload', {
     data: data
   })

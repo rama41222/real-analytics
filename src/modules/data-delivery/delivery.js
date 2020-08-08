@@ -1,6 +1,6 @@
 'use strict';
 require('events').EventEmitter.prototype._maxListeners = 0;
-const api = require('lambda-api')({ version: 'v1.0', base:'/v1/data-delivery'});
+const api = require('lambda-api')({ version: 'v1.0', base: '/v1/data-delivery' });
 const routes = require('./routes');
 const { middleware } = require('./../../lib');
 const { database } = require('./../../lib/database');
@@ -16,24 +16,28 @@ let connection;
  * @returns {Promise<void>}
  */
 module.exports.handler = async (event, context, cb) => {
+  
   // Checking if the event loop is empty
-     context.callbackWaitsForEmptyEventLoop = false;
+  context.callbackWaitsForEmptyEventLoop = false;
+  
   // Reusing the mongodb connection whenever possible to keep away from cold starts
-  if(connection) {
+  if (connection) {
     return api.run(event, context, cb);
   } else {
+    
     // Returning the promise will ensure that the first response always gets a proper response through the router
     await new Promise((resolve, reject) => {
-      database.connect.then( result => {
+      database.connect.then(result => {
         connection = result;
         resolve(connection);
-        console.log('Connection Status',!!connection);
+        console.log('Connection Status', !!connection);
       }).catch(e => {
-        console.log('error',e);
+        console.log('error', e);
         connection = false;
         reject(connection)
       })
     });
+    
     // Passing the events into lambda-api router
     return api.run(event, context, cb);
   }

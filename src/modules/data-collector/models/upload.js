@@ -17,7 +17,7 @@ const uploadSchema = new Schema({
     type: String,
     required: [true, `File location is needed`],
   },
-  key:{
+  key: {
     type: String,
     required: [true, 'key is required']
   }

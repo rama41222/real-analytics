@@ -1,4 +1,5 @@
-const calculationsManager =  require('./calculate');
+const calculationsManager = require('./calculate');
+
 /**
  * Main tasks file
  * @type {calculationsManager}

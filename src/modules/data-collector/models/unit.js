@@ -14,9 +14,9 @@ const unitSchema = new Schema({
   },
   size: {
     type: Number,
-    required: [true, `Unit size is required in ${this.ref} on ${this.data_timestamp}`],
+    required: [true, `Unit size is required in ${ this.ref } on ${ this.data_timestamp }`],
   },
-  is_rented:{
+  is_rented: {
     type: Boolean,
     required: [true, 'Unit address is required']
   },
@@ -26,7 +26,7 @@ const unitSchema = new Schema({
   /**
    * Add more unit types as required by the data files
    */
-  type:{
+  type: {
     type: String,
     enum: ['RESIDENTIAL', 'OFFICE', 'RETAIL', 'COMMERCIAL'],
     required: [true, 'Unit location constraints required']
@@ -43,7 +43,7 @@ const unitSchema = new Schema({
   asset: {
     type: String,
     ref: 'Asset',
-    required: [true, `Asset reference is required to store this unit ${this.ref} on ${this.data_timestamp}`]
+    required: [true, `Asset reference is required to store this unit ${ this.ref } on ${ this.data_timestamp }`]
   },
   timestamp: {
     type: String,
@@ -55,6 +55,6 @@ const unitSchema = new Schema({
 /**
  * Create a unique constaint for timestamp and ref and asset to prevent duplicates
  */
-unitSchema.index({ timestamp: -1, ref: 1,  asset: 1 }, { unique: true });
+unitSchema.index({ timestamp: -1, ref: 1, asset: 1 }, { unique: true });
 module.exports = mongoose.model('Unit', unitSchema);
 

@@ -1,6 +1,5 @@
 const Asset = require('./models/asset');
 const Unit = require('./models/unit');
-// const { connect } = require('./../queues');
 const { queue } = require('./../../lib/database');
 
 /**
@@ -10,40 +9,28 @@ const { queue } = require('./../../lib/database');
  * @returns {Promise<void>}
  */
 const offLoader = async (jobId, parsedFile) => {
-  return await new Promise( async(resolve, reject) => {
-    // Queue options
-    // const jobOptions = {
-    //   delay: 0,
-    //   attempts: 2,
-    // };
-  
-    console.log('calling the queue');
+  return await new Promise(async (resolve, reject) => {
+    console.log('calling the queue:', jobId);
     
     // for each file
     for (let filename in parsedFile) {
-    
+      
       // data object
       const data = { jobId, filename: parsedFile[filename].filename, parsedFile: parsedFile[filename] };
       
+      // Job options for SQS
       const jobOptions = {
         QueueUrl: queue.queueUrl,
         MessageBody: JSON.stringify(data)
       };
+      
+      // Add the job to the SQS
       queue.sqs.sendMessage(jobOptions, function (err, resp) {
-        if(err) {
+        if (err) {
           return reject(new Error('error when adding to queue:' + err));
         }
         return resolve(resp);
       });
-      // add the job to the queue
-      // await connect.then(queue => {
-      //
-      //   queue.add(data, jobOptions);
-      //
-      //   console.log('added the job', jobId)
-      // }).catch(e => {
-      //   return reject(new Error('error when adding to queue:' + e))
-      // })
     }
   });
   

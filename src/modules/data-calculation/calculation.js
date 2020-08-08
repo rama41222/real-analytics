@@ -13,29 +13,40 @@ let connection;
  * @returns {Promise<void>}
  */
 module.exports.handler = async (event, context, cb) => {
+  
   console.log(JSON.parse(event.Records[0].body));
+  
   // Checking if the event loop is empty
   context.callbackWaitsForEmptyEventLoop = false;
-  // Reusing the mongodb connection whenever possible to keep away from cold starts
-  // if(!connection) {
-    // Returning the promise will ensure that the first response always gets a proper response through the router
-    const result = await new Promise(async(resolve, reject) => {
-      if(!connection) {
-        database.connect.then( async result => {
-          connection = result;
-          console.log('Connection Status',!!connection);
-          await processor(JSON.parse(event.Records[0].body));
-          return resolve(await calculationsManager());
-        }).catch(e => {
-          console.log('error', e);
-          connection = false;
-          return reject(connection)
-        })
-      }
-      await processor(JSON.parse(event.Records[0].body));
-      return resolve(await calculationsManager());
-    });
+  
+  // Returning the promise will ensure that the first response always gets a proper response through the router
+  const result = await new Promise(async (resolve, reject) => {
     
-    cb(null, result);
+    // Reusing the mongodb connection whenever possible to keep away from cold starts
+    if (!connection) {
+      
+      database.connect.then(async result => {
+        connection = result;
+        console.log('Connection Status', !!connection);
+        
+        // Process CSVs
+        await processor(JSON.parse(event.Records[0].body));
+        return resolve(await calculationsManager());
+        
+      }).catch(e => {
+        
+        console.log('error', e);
+        connection = false;
+        return reject(connection)
+        
+      })
+    }
+    
+    // Process CSVs
+    await processor(JSON.parse(event.Records[0].body));
+    return resolve(await calculationsManager());
+  });
+  
+  cb(null, result);
   // }
 };

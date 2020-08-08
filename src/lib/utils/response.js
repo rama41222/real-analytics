@@ -6,7 +6,7 @@
  * @returns {{data: *, message: *, status: number}}
  */
 const response = (message, data, status) => {
-  if(!status) {
+  if (!status) {
     status = data ? 200 : 400;
   }
   return { message, data, status }

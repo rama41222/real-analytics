@@ -17,7 +17,7 @@ const assetSchema = new Schema({
     trim: true,
     required: [true, 'Reference is required'],
   },
-  address:{
+  address: {
     type: String,
     trim: true,
     required: [true, 'Asset address is required']
@@ -33,7 +33,7 @@ const assetSchema = new Schema({
   },
   city: {
     type: String,
-    required: [true, `City is required in ${this.ref}`]
+    required: [true, `City is required in ${ this.ref }`]
   },
   yoc: {
     type: String,

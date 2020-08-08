@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const dotenv = require('dotenv');
-const env = process.argv[process.argv.length-1];
-dotenv.config({path: `./env/.env.${env}`});
+const env = process.argv[process.argv.length - 1];
+dotenv.config({ path: `./env/.env.${ env }` });
 const { validateObject } = require('../../../src/lib');
 
 describe('Lib module', () => {
@@ -32,12 +32,12 @@ describe('Lib module', () => {
       const result = await validateObject(Object.keys(testObject));
       expect(result).to.equal(true);
     });
-  
+    
     it('Validate Object wrong keys', async () => {
-      const result = await validateObject(Object.keys({"test_key": ''}));
+      const result = await validateObject(Object.keys({ "test_key": '' }));
       expect(result).to.equal(false);
     });
-  
+    
     it('Validate Object with extra keys', async () => {
       testObject.new_key = '3';
       const result = await validateObject(Object.keys(testObject));
