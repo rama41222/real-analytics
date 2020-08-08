@@ -1,12 +1,13 @@
 ## Real Analytics API
 
-**Live @ [AWS lambda]( https://i8bsrn67me.execute-api.ap-south-1.amazonaws.com/production/v1/data-collector/status)** 
+**Live @ [AWS lambda](https://i8bsrn67me.execute-api.ap-south-1.amazonaws.com/production/v1/data-collector/status)** 
 
 ### Prerequisites 
 1. Docker up and running
 2. Node and npm installed
 3. aws-cli
-4. [Postman Collection]() or [goto](./docs)  for the collection
+4. [Postman Collection](https://thecompiler.postman.co/collections/2822837-75f4c22e-2702-41d2-a33f-8396ca1d5c21
+/publish?workspace=c86c0053-bd08-4613-8385-f6586ff09405) or [goto](./docs/)  for the collection and env
  collection and the environment
  
 ### Listing API Route params

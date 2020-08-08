@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "75f4c22e-2702-41d2-a33f-8396ca1d5c21",
+		"name": "real-analytics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post a dataset",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/csv",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/xls",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file2",
+							"type": "file",
+							"src": ""
+						},
+						{
+							"key": "file1",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/data-collector/store",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data-collector",
+						"store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/data-collector/status",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data-collector",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch all assets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/data-delivery/assets?limit=5",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data-delivery",
+						"assets"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch asset by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/data-delivery/assets/5f2a553259c8b674d7f3b082",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"data-delivery",
+						"assets",
+						"5f2a553259c8b674d7f3b082"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
