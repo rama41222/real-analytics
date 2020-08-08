@@ -67,29 +67,66 @@ Skip if you have already setup the following.
     3. .env.production
     4. .env.${name_of_the_env}
 
-    ```dotenv
-    L_AWS_ACCESS_KEY=
-    L_AWS_SECRET=
-    L_AWS_REGION=
-    APP_NAME=
-    NODE_ENV=
-    JWT_SECRET=
-    JWT_ALGORITHM=
-    JWT_EXP=5m
-    DB_NAME=
-    DB_HOST=
-    DB_PORT=
-    DB_PASSWORD=
-    DB_USER=
-    REDIS_ENDPOINT=
-    REDIS_PASSWORD=
-    REDIS_PORT=
-    PUSHER_APP_ID
-    PUSHER_KEY=
-    PUSHER_SECRET=
-    PUSHER_CLUSTER=
+```
+# Please create a IAM user on AWS with programatic access
+# The AWS user should have Lambda, SQS, Clouds Watch, Cloud Formation, S3, EC2 rights
+# AWS Access key Id
+L_AWS_ACCESS_KEY=
 
-    ```
+# AWS Access key Secret
+L_AWS_SECRET=
+
+# AWS Region ex: ap-south-1
+L_AWS_REGION=
+
+# Application Name
+APP_NAME=real-analytics
+
+# Application Environment [development, production, testing]
+NODE_ENV=
+
+# JWT Config is not required for this
+#JWT_SECRET=
+#JWT_ALGORITHM=
+#JWT_EXP=1d
+
+# Please run mongodb on your local machine or on a host like Cloud Atlas and enter the parameters
+# Mongodb database connection parameters, the name can be anything
+
+# Database name
+DB_NAME=real-analytics
+
+# Database host url
+DB_HOST=
+
+# Database port
+DB_PORT=
+
+# Database password
+DB_PASSWORD=
+
+# Database username
+DB_USER=
+
+# Redis cluster is not required. It is deprecated since the introduction os SQS
+#REDIS_ENDPOINT=
+#REDIS_PASSWORD=
+#REDIS_PORT=
+
+# Please create a free pusher account and input the following parameters
+
+# pusher application Id
+PUSHER_APP_ID
+
+# Pusher application key
+PUSHER_KEY=
+
+# pusher secret
+PUSHER_SECRET=
+
+# Pusher Cluster Region ex: ap2
+PUSHER_CLUSTER=
+```
     
 7. Add the offline plugin to serverless framework 
  ```yaml
