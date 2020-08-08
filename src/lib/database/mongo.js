@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 const connect = new Promise((resolve, reject) => {
   
   // connect to mongodb
-  mongoose.connect(mongo.url, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connect(mongo.url, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
   
   // Open connection
   mongoose.connection.once('open', () => {

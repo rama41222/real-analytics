@@ -109,8 +109,7 @@ const dataVerifier = async ({ filename, jobId, parsedFile }) => {
         }
         
         // resolves
-        resolve(proc);
-        return proc;
+        return resolve(proc);
       }).catch(async e => {
         
         // trigger pusher notification if error occurs with the relevant data
